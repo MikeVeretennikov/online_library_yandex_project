@@ -1,0 +1,23 @@
+header {
+    background-color:#916e62;
+    padding: 10px;
+    color: aliceblue;
+}
+
+
+body {
+    background-color: #d5bda9;
+    color: aliceblue;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 25px;
+}
+
+
+a {
+    margin: 20px;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 25px;
+}
+
+
+
