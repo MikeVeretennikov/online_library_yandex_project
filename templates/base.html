@@ -11,7 +11,7 @@
 <body>
 
     <header class="navbar">
-        <a>Онлайн библиотека</a> 
+        <a style="text-decoration: none; color:aliceblue;" href="/">Онлайн библиотека</a> 
         {% if current_user.is_authenticated %}
             <a class="navbar-brand" style="color: aliceblue;" href="/logout">{{ current_user.name }}</a>
         {% else %}

@@ -1,12 +1,14 @@
 import flask
 import flask_login
 
+
 from forms.register_form import RegisterForm
 from forms.login_form import LoginForm
+from forms.add_book_form import AddBook
 from data import db_session
 from data.users import User
 from data.books import Book
-from data.genres import Genre
+from data.genres import Genres
 
 
 app = flask.Flask(__name__)
@@ -86,6 +88,91 @@ def login():
 def logout():
     flask_login.logout_user()
     return flask.redirect("/")
+
+
+@app.route("/download/<int:book_id>")
+def download_book(book_id):
+    sess = db_session.create_session()
+    book = sess.query(Book).filter(Book.id == book_id).first()
+
+    return flask.send_file("book_files/crime_and_punishment.txt")
+
+
+@app.route("/add_book", methods=["GET", "POST"])
+@flask_login.login_required
+def add_book():
+    form = AddBook()
+
+    if flask.request.method == "POST":
+        sess = db_session.create_session()
+        book = Book(
+            title = form.title.data,
+            author = form.author.data, 
+            type_of_fiction_id = form.type_of_fiction_id.data,
+            genre_id = form.genre_id.data,
+            publish_year = form.publish_year.data,
+            path_to_file = form.path_to_file.data
+        )
+        
+        sess.add(book)
+        sess.commit()
+        return flask.redirect("/")
+
+    elif flask.request.method == "GET":
+        return flask.render_template("add_book.html", title="Добавление книги", form=form)
+
+
+@app.route("/delete_book/<int:book_id>")
+@flask_login.login_required
+def delete_book(book_id):
+    sess = db_session.create_session()
+    book = sess.query(Book).filter(Book.id == book_id).first()
+    
+    if book:
+        sess.delete(book)
+        sess.commit()
+    else:
+        flask.abort(404)
+    
+    return flask.redirect("/")
+
+
+@app.route("/edit_book/<int:book_id>", methods=["GET", "POST"])
+@flask_login.login_required
+def edit_book(book_id):
+    form = AddBook()
+    if flask.request.method == "GET":
+        db_sess = db_session.create_session()
+        book = db_sess.query(Book).filter(Book.id == book_id).first()
+        
+        if book:
+            form.title.data = book.title
+            form.author.data = book.author
+            form.type_of_fiction_id.data = book.type_of_fiction_id
+            form.genre_id.data = book.genre_id
+            form.publish_year.data = book.publish_year
+            form.path_to_file.data = book.path_to_file
+        else:
+            flask.abort(404)
+    
+    elif flask.request.method == "POST":
+        db_sess = db_session.create_session()
+        book = db_sess.query(Book).filter(Book.id == book_id).first()
+        
+        if book:
+            book.title = form.title.data
+            book.author = form.author.data
+            book.type_of_fiction_id = form.type_of_fiction_id.data
+            book.genre_id = form.genre_id.data
+            book.publish_year = form.publish_year.data
+            book.path_to_file = form.path_to_file.data
+            db_sess.commit()
+            
+            return flask.redirect("/")
+        else:
+            flask.abort(404)
+    
+    return flask.render_template("add_book.html", title="Редактирование книги", form=form)
 
 
 def main():

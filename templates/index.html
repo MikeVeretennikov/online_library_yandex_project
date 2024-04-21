@@ -2,15 +2,48 @@
 
 {% block content %}
 
-    {% for book in books %}
-        
-    <table>
-        <tr>
-            {{ book }}
-        </tr>
-        
-    </table>
-        
-    {% endfor %}
+  
+    {% if current_user.is_authenticated and current_user.rights == "administrator" %}
+    <a href="/add_book" class="btn btn-secondary">Добавить книгу</a>
+    {% endif %}
 
+    <div class="books">
+        
+        <table class="table">
+
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Автор</th>
+              <th>Род литературы</th>
+              <th>Жанр</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          
+            {% for book in books %}
+              <tr>
+                <th>{{book.title}} </th>
+                <th>{{ book.author }}</th>
+                 <th>{{ book.type_of_fiction }}</th>
+                 <th>{{ book.genre }}</th>
+                 <th><a href="/download/{{ book.id }}"><img src="static/img/download.png"></a></th>
+
+                 {% if current_user.is_authenticated and current_user.rights == "administrator" %}
+                 <th><a href="/edit_book/{{ book.id }}"><img src="static/img/edit4.png"></a></th>
+                 <th><a href="delete_book/{{ book.id }}"><img src="static/img/delete3.png"></a></th>
+                  {% endif %}
+                </tr>
+                 
+
+              
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+    </div>
+    
 {% endblock %}

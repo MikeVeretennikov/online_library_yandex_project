@@ -19,5 +19,20 @@ a {
     font-size: 25px;
 }
 
+ol {
+    color: black;
+}
 
 
+img {
+    width: 30px;
+    height: 30px;
+}
+
+
+
+.books {
+    margin-top: 50px;
+    width: 120%;
+    margin-left:auto ;
+}
