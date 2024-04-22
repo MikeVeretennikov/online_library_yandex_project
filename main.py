@@ -95,7 +95,7 @@ def download_book(book_id):
     sess = db_session.create_session()
     book = sess.query(Book).filter(Book.id == book_id).first()
 
-    return flask.send_file("book_files/crime_and_punishment.txt")
+    return flask.send_file(book.path_to_file, as_attachment=True)
 
 
 @app.route("/add_book", methods=["GET", "POST"])

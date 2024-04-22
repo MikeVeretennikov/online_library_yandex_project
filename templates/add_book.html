@@ -29,6 +29,14 @@
         </p>
 
         <p>
+            {{ form.genre_id.label }}<br>
+            {{ form.genre_id(class="form-control") }}<br>
+            {% for error in form.type_of_fiction_id.errors %}
+                <p class="alert alert-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </p>
+
+        <p>
             {{ form.publish_year.label }}<br>
             {{ form.publish_year(class="form-control") }}<br>
             {% for error in form.publish_year.errors %}

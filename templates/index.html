@@ -6,6 +6,8 @@
     {% if current_user.is_authenticated and current_user.rights == "administrator" %}
     <a href="/add_book" class="btn btn-secondary">Добавить книгу</a>
     {% endif %}
+    
+    
 
     <div class="books">
         
@@ -26,13 +28,29 @@
               <tr>
                 <th>{{book.title}} </th>
                 <th>{{ book.author }}</th>
-                 <th>{{ book.type_of_fiction }}</th>
-                 <th>{{ book.genre }}</th>
-                 <th><a href="/download/{{ book.id }}"><img src="static/img/download.png"></a></th>
 
+                {% if not book.type_of_fiction %}
+                <th>Не указан</th>
+                {% else %}
+                 <th>{{ book.type_of_fiction }}</th>
+                {% endif %}
+
+
+                {% if not book.genre %}
+                <th>Не указан</th>
+                {% else %}
+                <th>{{ book.genre }}</th>
+                {% endif %}
+
+                 
+                 {% if not book.path_to_file %}
+                  <th  style="display: none;"><a href="/download/{{ book.id }}"><img src="static/img/download.png"></a></th>
+                 {% else %}
+                   <th><a href="/download/{{ book.id }}"><img src="static/img/download.png"></a></th>
+                 {% endif %}
                  {% if current_user.is_authenticated and current_user.rights == "administrator" %}
                  <th><a href="/edit_book/{{ book.id }}"><img src="static/img/edit4.png"></a></th>
-                 <th><a href="delete_book/{{ book.id }}"><img src="static/img/delete3.png"></a></th>
+                 <th><a href="/delete_book/{{ book.id }}"><img src="static/img/delete3.png"></a></th>
                   {% endif %}
                 </tr>
                  
@@ -42,8 +60,11 @@
             {% endfor %}
 
           </tbody>
+         
         </table>
-
+        
     </div>
+
+    
     
 {% endblock %}
