@@ -9,10 +9,12 @@ from data import db_session
 from data.users import User
 from data.books import Book
 from data.genres import Genres
+from api import library_api
 
 
 app = flask.Flask(__name__)
 app.config["SECRET_KEY"] = "library"
+
 
 
 login_manager = flask_login.LoginManager()
@@ -178,7 +180,7 @@ def edit_book(book_id):
 def main():
     db_session.global_init("db/online_library.db")
     
-
+    app.register_blueprint(library_api.blueprint)
     app.run()
 
 
