@@ -1,5 +1,5 @@
-Flask==3.0.2
-SQLAlchemy==2.0.29
-WTForms==3.1.2
-flask-restful==0.3.10
-SQLAlchemy-serializer==1.4.12
+Flask
+SQLAlchemy
+WTForms
+flask-restful
+SQLAlchemy-serializer
