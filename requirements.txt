@@ -3,3 +3,5 @@ SQLAlchemy
 WTForms
 flask-restful
 SQLAlchemy-serializer
+flask-wtf
+flask-login
