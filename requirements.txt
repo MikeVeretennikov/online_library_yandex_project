@@ -5,3 +5,4 @@ flask-restful
 SQLAlchemy-serializer
 flask-wtf
 flask-login
+Werkzeug==2.2.3
